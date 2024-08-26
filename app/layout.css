@@ -1,0 +1,44 @@
+.test{
+    background-color: #e03546;
+}
+
+.react-datepicker-wrapper{
+    width: 100%;
+}
+
+.transition-background{
+    max-width: 100%;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    header{
+        /* background-color: #e03546; */
+        padding-left: 0px!important;
+        gap: 0px!important;
+    }
+    .mobile-login{
+        padding: 21px 5px!important;
+    }
+    .mobile-bot-space{
+        margin-bottom: 25px
+    }
+    .mobile-padding{
+        padding: 12px 12px 13px 32px!important;
+    }
+    .bot-space{
+        margin-bottom: -16px!important;
+    }
+    .mobile-price{
+        display: block!important;
+    }
+    .mobile-price-hide{
+        display: none;
+    }
+    .mobile-view{
+        margin: 0px!important;
+    }
+  }
+
+  
