@@ -1,0 +1,21 @@
+.hoverRef:hover {
+    color: red
+}
+
+.hoverRef:hover+.hide {
+    display: block;
+}
+
+.myDIV:hover + .hide {
+    display: block;
+    color: red;
+  }
+
+/* .showHover:hover {
+    display: block!important;
+} */
+
+.hide{
+    display: none;
+}
+

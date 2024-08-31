@@ -18,7 +18,6 @@ export default function RootLayout({children}) {
     <html suppressHydrationWarning lang="en" data-theme="light">
       <head />
       <body
-        style={{background: "#f0f3f5", textAlign: "center"}}
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,

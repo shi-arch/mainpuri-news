@@ -19,12 +19,12 @@ import SoldOutGif from '../utils/images/sold-out.gif'
 import { Skeleton } from "@nextui-org/skeleton";
 import Image from 'next/image'
 import './commonComponent.css'
-import { AddNoteIcon, Bookingicon, DateIcon, LogOut, ProfileIcon, UserIcon } from "../utils/icons";
+import { AddNoteIcon, Bookingicon, DateIcon, LogOut, ProfileBlackIcon, ProfileIcon, UserIcon } from "../utils/icons";
 
 export const BikeCard = (props) => {
     const dispatch = useDispatch()
     const { name, url, pricePerday, vehicleCount, accessChargePerKm, finalCharge, bookingCount } = props
-    const selectedLocality = useSelector((state) => state.selectedLocality);
+    const {selectedLocality, error} = useSelector((state) => state);
     const router = useRouter()
     return (
         <Card className="max-w-[400px]">
@@ -55,7 +55,7 @@ export const BikeCard = (props) => {
                                     dispatch({ type: "SELECTEDVEHICLE", payload: props })
                                     dispatch({ type: "TRIGGERAPI", payload: false })
                                     router.push('/details')
-                                }} type="submit" disabled={vehicleCount == 0 ? true : false || !selectedLocality} className="btn btn-success btn-block form-control">Rent Now</button> :
+                                }} type="submit" disabled={vehicleCount == 0 || error?.msg ? true : false || !selectedLocality} className="btn btn-success btn-block form-control">Rent Now</button> :
                                 ""
                         }
                     </div>
@@ -170,25 +170,44 @@ export const ProfileDrop = () => {
                 }} startContent={<LogOut />} key="copy">Logout</DropdownItem>
                 <DropdownItem onClick={() => {
                     router.push('/profile')
-                }} startContent={<ProfileIcon />} key="copy">Profile</DropdownItem>
-                <DropdownItem onClick={() => {
-                    router.push('/bookings')
-                }} startContent={<Bookingicon />} key="copy">My Bookings</DropdownItem>
+                }} startContent={<ProfileBlackIcon />} key="copy">Profile</DropdownItem>
 
             </DropdownMenu>
         </Dropdown>
     )
 }
 
-export const DropDown = (props) => {
-    const { list, onSelect, defaultVal} = props
+const DropDown = () => {
+    const [selectedKeys, setSelectedKeys] = useState("")
+    const [defaultVal, setDefaultVal] = useState("saab")
+    const subLocations = useSelector((state) => state.selectedCity.subLocation);
+    const filterString = useSelector((state) => state.filterString);
+    const defaultPickupLocation = useSelector((state) => state.defaultPickupLocation);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        apiCall()
+    }, [filterString])
+
+    useEffect(() => {
+        if (subLocations) {
+            setDefaultVal(subLocations[0].value)
+        }
+    }, [subLocations])
+
     return (
         <>
-            <select className="form-select mobile-bot-space" defaultValue={defaultVal}
-                onClick={async (e) => onSelect(e.target.value)}
-                name="cars" id="cars">
+            <select style={{ height: "57px" }} className="form-select mobile-bot-space" defaultValue={defaultPickupLocation} onClick={async (e) => {
+                const o = e.target.value
+                setSelectedKeys(o)
+                const filter = { ...filterString, pickupLocation: o }
+                dispatch({ type: "FILTERSTRING", payload: filter })
+                dispatch({ type: "DEFAULTPICKUPLOCATION", payload: o })
+                dispatch({ type: "SELECTEDLOCALITY", payload: o })
+            }} name="cars" id="cars">
                 {
-                    list && list.length ? list.map((o) => (
+                    subLocations && subLocations.length ? subLocations.map((o) => (
                         <option key={o.value} value={o.value}>{o.label}</option>
                     )) : ""
                 }
@@ -280,25 +299,27 @@ export const TimerSelection = (props) => {
 
 export const DateSelection = (props) => {
     const { type, isBold } = props
-    const { startDate, endDate, filterString } = useSelector(state => state)
+    const { startDate, endDate, filterString, error } = useSelector(state => state)
     const dispatch = useDispatch()
     const handleChange = (date) => {
         dispatch({ type: type, payload: date })
     }
     return (
-        <DatePicker
-            selected={type == "STARTDATE" ? startDate : endDate}
-            onChange={async (e) => {
-                const res = await getDateTimeInput(type, e)
-                isValid()
-                dispatch({ type: "FILTERSTRING", payload: { ...filterString, [type == "STARTDATE" ? "startDate" : "endDate"]: res } })
-            }}
-            dateFormat="d MMM, yyyy"
-            minDate={new Date()}
-            //errorMessage={'Please select valid date'}
-            // isValidDate={true}
-            customInput={<CustomInput isBold={isBold} label={type == "STARTDATE" ? 'Start Date' : 'End Date'} value={moment(type == "STARTDATE" ? startDate : endDate).format('DD MMM, YYYY')} />}
-        />
+        <>
+            <DatePicker
+                selected={type == "STARTDATE" ? startDate : endDate}
+                onChange={async (e) => {
+                    const res = await getDateTimeInput(type, e)
+                    isValid()
+                    dispatch({ type: "FILTERSTRING", payload: { ...filterString, [type == "STARTDATE" ? "startDate" : "endDate"]: res } })
+                }}
+                dateFormat="d MMM, yyyy"
+                minDate={new Date()}
+                customInput={<CustomInput isBold={isBold} label={type == "STARTDATE" ? 'Start Date' : 'End Date'} value={moment(type == "STARTDATE" ? startDate : endDate).format('DD MMM, YYYY')} />}
+            />
+            <span style={{ color: "red", fontSize: "12px" }}>{type == "ENDDATE" && error.type == "endDate" && error.msg }</span>
+            <span style={{ color: "red", fontSize: "12px" }}>{type == "STARTDATE" && error.type == "startDate" && error.msg }</span>
+        </>
     )
 }
 

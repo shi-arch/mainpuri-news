@@ -33,25 +33,16 @@ const initialState = {
   vehicleName: "",
   selectedCity: "",
   selectedKeys: "",
-  defaultPickupLocation: "Please select the nearby location",
-  locationData: "",
-  subLocations: [],
-  vehicleDetails: {bookingCount: 0}
+  defaultPickupLocation: "Please select the nearby location"
 };
 
 const RootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'SUBLOCATIONS':
-      return { ...state, subLocations: action.payload };
-    case 'VEHICLEDETAILS':
-      return { ...state, vehicleDetails: action.payload };
-    case 'LOCATIONDATA':
-      return { ...state, locationData: action.payload };
+  switch (action.type) {    
     case 'PAYMENTMETHOD':
       return { ...state, paymentMethod: action.payload };
-    case 'SELECTEDKEYS':
+      case 'SELECTEDKEYS':
       return { ...state, selectedKeys: action.payload };
-    case 'SHOWSIGNUPMODAL':
+      case 'SHOWSIGNUPMODAL':
       return { ...state, showSignUpModel: action.payload };
     case 'DEFAULTBRAND':
       return { ...state, defaultBrand: action.payload };
@@ -85,9 +76,9 @@ const RootReducer = (state = initialState, action) => {
       return { ...state, endTime: action.payload };
     case 'STARTTIME':
       return { ...state, startTime: action.payload };
-    case 'SHOWPAYMODEL':
+      case 'SHOWPAYMODEL':
       return { ...state, showPayModel: action.payload };
-    case 'ENDDATE':
+    case 'ENDDATE':      
       return { ...state, endDate: action.payload };
     case 'VEHICLADATA':
       return { ...state, vehicleData: action.payload };
