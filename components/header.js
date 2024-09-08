@@ -34,25 +34,16 @@ export default function Header() {
 
     return (
         <div>
-            <div style={{ padding: "24px" }}>
-                <div className="row">
-                    <div className="col-md-6">
-                        <span>Saturday, August 31, 2024</span>
-                    </div>
-                    <div className="col-md-6" style={{ textAlign: "end", color: "#E04040" }}>
-                        <span style={{ cursor: "pointer" }}>About</span>
-                        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                        <span style={{ cursor: "pointer" }}>Contact</span>
-                    </div>
-                </div>
-            </div>
-            <hr style={{ margin: "0px" }} />
+            
             <div style={{ padding: "24px" }}>
                 <div className="row" style={{ justifyContent: "space-between" }}>
                     <div className="col-md-4">
                         <div>
-                            <div style={{ marginLeft: '30px' }}><EmailIcon /></div>
-                            <p className="font-bold text-inherit">NEWSLETTER</p>
+                            <span>Saturday, August 31, 2024</span>
+                            <div style={{ display: 'flex' }}><EmailIcon />
+                                <p className="font-bold text-inherit" style={{ marginTop: "7px" }}>NEWSLETTER</p>
+                            </div>
+
                         </div>
                     </div>
                     <div className="col-md-4" style={{ textAlign: "center" }}>
@@ -60,13 +51,16 @@ export default function Header() {
                         <p className="font-bold text-inherit">Gossip & Lifestyle Online Magazine</p>
                     </div>
                     <div className="col-md-4" style={{ textAlign: "end" }}>
-                        <span style={{ fontWeight: "bolder" }}>| </span><span style={{ cursor: "pointer", color: "#E04040", fontWeight: "bold" }}>MY ACCOUNT</span><span style={{ fontWeight: "bolder" }}> |</span>
+                        <span style={{ cursor: "pointer", fontWeight: "bold", color: "#E04040" }}>About</span>
+                        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                        <span style={{ cursor: "pointer", fontWeight: "bold", color: "#E04040" }}>Contact</span>
+                        {/* <span style={{ fontWeight: "bolder" }}>| </span><span style={{ cursor: "pointer", color: "#E04040", fontWeight: "bold" }}>MY ACCOUNT</span><span style={{ fontWeight: "bolder" }}> |</span> */}
                     </div>
                 </div>
             </div>
             <hr style={{ margin: "0px" }} />
             <Navbar style={{ padding: "0px" }} onMenuOpenChange={setIsMenuOpen}>
-                <NavbarContent>
+                {/* <NavbarContent>
                     <NavbarMenuToggle
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                         className="sm:hidden"
@@ -75,7 +69,7 @@ export default function Header() {
                         <AcmeLogo />
                         <p className="font-bold text-inherit hoverRef" style={{ marginTop: "16px" }}>ALL</p>
                     </NavbarBrand>
-                </NavbarContent>
+                </NavbarContent> */}
                 <NavbarContent justify="center" style={{ marginTop: "50px" }}>
                     <NavbarItem>
                         <div style={{ textAlign: '-webkit-center', cursor: 'pointer' }}>
@@ -140,7 +134,10 @@ export default function Header() {
                     ))}
                 </NavbarMenu>
             </Navbar>
+            
             <hr style={{ margin: "40px 0px 0px 0px" }} />
+            <div style={{ padding: "30px" }}></div>
+            <hr />        
             <div className="hoverRef hide">
                 <div style={{ position: "absolute", left: "35%", display: "inline-block", padding: "20px", border: "2.5px solid #c7c8c9" }}>
                     <Image style={{ width: "200px" }} src={SoldOut} />
